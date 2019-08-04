@@ -91,6 +91,7 @@ class Scores extends Component {
     buttonText="Login"
     onSuccess={responseGoogle}
     onFailure={responseGoogle}
+    redirectUri="http://localhost:3000/user"
     cookiePolicy={'single_host_origin'}
   /></Nav>
           <Row>
