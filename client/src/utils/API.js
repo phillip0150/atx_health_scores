@@ -32,6 +32,10 @@ export default {
   getUserID: function(user) {
     console.log("in get user: " + user);
     return axios.get("/api/user/id/"+user);
+  },
+
+  updateFavs: function(user) {
+    return axios.put("/api/user/id/"+user)
   }
 
 };

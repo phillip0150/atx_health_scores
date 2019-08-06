@@ -118,7 +118,7 @@ class Scores extends Component {
               <Jumbotron>
                 <h1>Score Results</h1>
               </Jumbotron>
-        <Table dark>
+        <Table responsive dark>
         <thead>
           <tr>
             <th>#</th>

@@ -11,6 +11,8 @@ function App() {
       <Switch>
       <Route exact path="/" component={Scores} />
       <Route exact path="/user" component={User} />
+      {/* <Route exact path="/user/:id" component={Detail} /> */}
+
       </Switch>
     </div>
     </Router>
