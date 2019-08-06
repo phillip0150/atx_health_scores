@@ -17,6 +17,11 @@ router
   .route("/id/:id")
   .get(userController.findById)
   .put(userController.update)
-  .delete(userController.remove);
+  .delete(userController.removeFav);
+
+router
+  .route("/id/:id/food")
+  .get(userController.findById)
+  .put(userController.removeFav)
 
 module.exports = router;

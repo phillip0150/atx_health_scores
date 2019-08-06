@@ -31,9 +31,9 @@ module.exports = {
       .catch(err => res.status(422).json(err));
   },
   update: function(req, res) {
-    console.log(req);
+    console.log("req: "+ JSON.stringify(req.body.favs));
     db.User
-      .findOneAndUpdate({ _id: req.params.id }, req.body)
+      .findOneAndUpdate({ _id: req.params.id }, {$push: {favs: req.body.favs}})
       .then(dbModel => res.json(dbModel))
       .catch(err => res.status(422).json(err));
   },
@@ -43,5 +43,13 @@ module.exports = {
       .then(dbModel => dbModel.remove())
       .then(dbModel => res.json(dbModel))
       .catch(err => res.status(422).json(err));
+  },
+
+  removeFav: function(req,res){
+    console.log(req);
+    db.User
+    .findOneAndUpdate({ _id: req.params.id }, {$pullAll: {favs: [req.body.favs]}})
+    .then(dbModel => res.json(dbModel))
+    .catch(err => res.status(422).json(err));
   }
 };

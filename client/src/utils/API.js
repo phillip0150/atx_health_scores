@@ -34,8 +34,12 @@ export default {
     return axios.get("/api/user/id/"+user);
   },
 
-  updateFavs: function(user) {
-    return axios.put("/api/user/id/"+user)
+  updateFavs: function(id, foodData) {
+    return axios.put("/api/user/id/"+id, foodData)
+  },
+
+  deleteFavs: function(id, foodData) {
+    return axios.put("/api/user/id/"+id+"/food", foodData)
   }
 
 };

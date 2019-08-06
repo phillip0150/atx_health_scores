@@ -9,8 +9,8 @@ import { GoogleLogout } from 'react-google-login';
 
 
 //api token for react-map-gl
-const TOKEN =  process.envTOKEN || 
-const GOOGLE = process.envGOOGLE || 
+const TOKEN =  process.envTOKEN 
+const GOOGLE = process.envGOOGLE 
 class User extends Component {
   //setting state to empty
     state = {
@@ -95,14 +95,7 @@ class User extends Component {
     }
     };
 
-    // mapResults = () => {
-    //   //maping results to name
-    //     this.state.results.map(food =>(
-    //         {name: food.restaurant_name}
-            
-    //     ))
-        
-    // }
+
 
     //creating user if we cannot find them.
     createUser = (response) => {
@@ -125,12 +118,26 @@ class User extends Component {
         
     }
 
+    
+
     //here we are updating users fav foods
-    // updateTheFavs = (food) => {
-    //   API.updateFavs({
-    //     favs: {food}
-    //   })
-    // }
+    updateTheFavs = (id, favs) => {
+      
+      API.updateFavs(id, {
+        favs
+      }).then(res =>
+      {this.setState({user: res.data});
+    })
+    
+    }
+
+    delTheFavs = (id, favs) => {
+      console.log("TheFavsDel: " +JSON.stringify(favs));
+      API.deleteFavs(id, 
+        {favs}
+      ).then(res =>
+      {})
+    }
 
 
 
@@ -192,7 +199,7 @@ class User extends Component {
                 <Jumbotron>
                   <h1>Welcome {this.state.user.name}</h1>
                 </Jumbotron>
-                <h1>Saved Places</h1>
+                <h1>Favs</h1>
                 {this.state.user.favs.map((favs, index) => (
                   <Media>
       <Media key={index} left href="#">
@@ -211,7 +218,8 @@ class User extends Component {
         <Media heading>
           {favs.restaurant_name} {this.whichBadge(favs.score)}
         </Media>
-        <Button href={favs.address_address} >View Restaurant</Button>
+        <Button href={favs.address_address} >View Restaurant</Button>{' '}
+        <Button onClick={() => this.delTheFavs(localStorage.getItem('id'), favs)} color="danger">Delete</Button>
       </Media>
     </Media>))}
 
@@ -235,7 +243,7 @@ class User extends Component {
             <th>Restaurant Address</th>
             <th>Score</th>
             {/* <th>Inspection Date</th> */}
-            <th>Add to Saved Places</th>
+            <th>Add to Favs</th>
           </tr>
         </thead>
         <tbody>
@@ -245,7 +253,7 @@ class User extends Component {
             <td>{food.address_address}</td>
             <td>{this.whichBadge(food.score)}</td>
             {/* <td>{food.inspection_date}</td> */}
-            <td><Button color="primary">Save</Button></td>
+            <td><Button onClick={() => this.updateTheFavs(localStorage.getItem('id'),food)}color="primary">Save</Button></td>
           </tr>
           
 
