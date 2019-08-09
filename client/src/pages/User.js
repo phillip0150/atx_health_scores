@@ -1,23 +1,26 @@
 import React, { Component } from "react";
 // import { Link } from "react-router-dom";
-import { Media, Badge, Jumbotron, Input, Nav, Button, Form, FormGroup, Label, Container, Row, Col, Table} from 'reactstrap';
+import { Media, Card, CardBody, CardTitle, Badge, Jumbotron, Input, Nav, Button, Form, FormGroup, Label, Container, Row, Col, Table} from 'reactstrap';
 import API from "../utils/API";
 import { GoogleLogin } from 'react-google-login';
 // import Iframe from 'react-iframe'
-import ReactMapGL from 'react-map-gl';
+import ReactMapGL, {Marker} from 'react-map-gl';
 import { GoogleLogout } from 'react-google-login';
+import Moment from 'react-moment';
 
 
 //api token for react-map-gl
-const TOKEN =  process.envTOKEN 
-const GOOGLE = process.envGOOGLE 
+const TOKEN =  process.envTOKEN || ""
+const GOOGLE = process.envGOOGLE || ""
+
 class User extends Component {
   //setting state to empty
     state = {
       restaurantName: "",
       date: "",
       results: [],
-      user: []
+      user: [],
+      address: ""
     };
   
 
@@ -122,7 +125,6 @@ class User extends Component {
 
     //here we are updating users fav foods
     updateTheFavs = (id, favs) => {
-      
       API.updateFavs(id, {
         favs
       }).then(res =>
@@ -136,7 +138,14 @@ class User extends Component {
       API.deleteFavs(id, 
         {favs}
       ).then(res =>
-      {})
+      {this.setState({user: res.data});})
+    }
+
+    saveInfo = (address, name , lat, long) => {
+      localStorage.setItem('address', address);
+      localStorage.setItem('name', name);
+      localStorage.setItem('lat', lat);
+      localStorage.setItem('long', long);
     }
 
 
@@ -175,14 +184,13 @@ class User extends Component {
       }
     }
 
+
     //logging out the user
     //setting user state to empty and local storage id to empty
     logout = () => {
       localStorage.setItem('id', "");
       this.setState({user:[]});
     }
-
-    
 
     render() {
       return (
@@ -201,28 +209,32 @@ class User extends Component {
                 </Jumbotron>
                 <h1>Favs</h1>
                 {this.state.user.favs.map((favs, index) => (
+                   <Card>
+                     <CardBody>
                   <Media>
       <Media key={index} left href="#">
-      {/* <ReactMapGL
+      <ReactMapGL
         width={200}
         height={200}
         latitude={favs.address.coordinates[1]}
         longitude={favs.address.coordinates[0]}
-        zoom={15}
+        zoom={12}
         mapboxApiAccessToken={TOKEN}
         onViewportChange={(viewport) => this.setState({viewport})}
-      /> */}
+      ><Marker latitude={favs.address.coordinates[1]} longitude={favs.address.coordinates[0]} offsetLeft={-20} offsetTop={-10}>
+      <div>📍</div>
+    </Marker></ReactMapGL>
       <br></br>
       </Media>
       <Media body>
         <Media heading>
-          {favs.restaurant_name} {this.whichBadge(favs.score)}
+        <CardTitle>{favs.restaurant_name} {this.whichBadge(favs.score)}</CardTitle>
         </Media>
-        <Button href={favs.address_address} >View Restaurant</Button>{' '}
+        <Button href={"place/"+favs.restaurant_name} onClick={()=> this.saveInfo(favs.address_address, favs.restaurant_name, favs.address.coordinates[1], favs.address.coordinates[0])}>View Restaurant</Button>{' '}
         <Button onClick={() => this.delTheFavs(localStorage.getItem('id'), favs)} color="danger">Delete</Button>
       </Media>
-    </Media>))}
-
+    </Media> </CardBody></Card>))}
+              <br></br>
               </Col>
               <Col>
               <Jumbotron>
@@ -242,7 +254,7 @@ class User extends Component {
             <th>Restaurant Name</th>
             <th>Restaurant Address</th>
             <th>Score</th>
-            {/* <th>Inspection Date</th> */}
+            <th>Inspection Date</th>
             <th>Add to Favs</th>
           </tr>
         </thead>
@@ -252,18 +264,18 @@ class User extends Component {
             <td>{food.restaurant_name}</td>
             <td>{food.address_address}</td>
             <td>{this.whichBadge(food.score)}</td>
-            {/* <td>{food.inspection_date}</td> */}
-            <td><Button onClick={() => this.updateTheFavs(localStorage.getItem('id'),food)}color="primary">Save</Button></td>
+            <td><Moment format="MM/DD/YYYY">{food.inspection_date}</Moment></td>
+            <td><Button onClick={() => this.updateTheFavs(localStorage.getItem('id'),food)} color="primary">Save</Button></td>
           </tr>
           
-
             ))}
           
         </tbody>
       </Table>
+
               </Col>
             </Row>) : 
-                  (<Row>
+                (<Row>
                   <Col size="md-12">
                     <Jumbotron>
                       <h1>Please Login...</h1>

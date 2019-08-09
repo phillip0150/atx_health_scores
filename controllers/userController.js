@@ -33,7 +33,7 @@ module.exports = {
   update: function(req, res) {
     console.log("req: "+ JSON.stringify(req.body.favs));
     db.User
-      .findOneAndUpdate({ _id: req.params.id }, {$push: {favs: req.body.favs}})
+      .findOneAndUpdate({ _id: req.params.id }, {$push: {favs: req.body.favs}}, {new: true})
       .then(dbModel => res.json(dbModel))
       .catch(err => res.status(422).json(err));
   },
@@ -48,7 +48,7 @@ module.exports = {
   removeFav: function(req,res){
     console.log(req);
     db.User
-    .findOneAndUpdate({ _id: req.params.id }, {$pullAll: {favs: [req.body.favs]}})
+    .findOneAndUpdate({ _id: req.params.id }, {$pullAll: {favs: [req.body.favs]}}, {new: true})
     .then(dbModel => res.json(dbModel))
     .catch(err => res.status(422).json(err));
   }

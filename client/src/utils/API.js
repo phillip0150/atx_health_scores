@@ -1,12 +1,15 @@
 import axios from "axios";
 
 const BASEURL = "https://data.austintexas.gov/resource/nguv-n54k.json?";
+const RECENTURL = "https://data.austintexas.gov/resource/nguv-n54k.json?$where=inspection_date%20between%20%272018-12-31T12:00:00%27%20and%20%272019-12-31T14:00:00%27&$order=inspection_date DESC"
 const NAMEURL = "$where=restaurant_name";
 const DATEURL = "$where=inspection_date";
+const ADDRESSURL = "address_address=";
+
 // Export an object with a "search" method that searches the Giphy API for the passed query
 export default {
   search: function() {
-    return axios.get(BASEURL);
+    return axios.get(RECENTURL);
   },
   searchName: function(query) {
       console.log(query)
@@ -40,6 +43,17 @@ export default {
 
   deleteFavs: function(id, foodData) {
     return axios.put("/api/user/id/"+id+"/food", foodData)
-  }
+  },
 
+  getPlace: function(query1, query2) {
+    return axios.get(BASEURL+ADDRESSURL+query1+"&restaurant_name="+query2+"&$order=inspection_date DESC");
+  },
+
+  getYelp: function(lat, long, place){
+    return axios.get("https://cors-anywhere.herokuapp.com/https://api.yelp.com/v3/businesses/search?term="+place+"&latitude="+lat+"&longitude="+long, {
+      headers: {
+          Authorization: `Bearer 2ozrOdoM-iqGVuP5uozgiBk6CunvT4pCllsN7PdRctZR63EopSt0ZruMP-E6Xiv7YOzffRRDGwVqUUwMLjVdKlYk_n49Q9d7WpshV0LSbgThn9oclFErTIuS14ECXXYx`
+     },
+    })
+  }
 };
