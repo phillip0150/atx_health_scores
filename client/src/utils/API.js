@@ -9,7 +9,7 @@ const ADDRESSURL = "address_address=";
 // Export an object with a "search" method that searches the Giphy API for the passed query
 export default {
   search: function() {
-    return axios.get(RECENTURL);
+    return axios.get(BASEURL);
   },
   searchName: function(query) {
       console.log(query)
@@ -45,12 +45,20 @@ export default {
     return axios.put("/api/user/id/"+id+"/food", foodData)
   },
 
-  getPlace: function(query1, query2) {
-    return axios.get(BASEURL+ADDRESSURL+query1+"&restaurant_name="+query2+"&$order=inspection_date DESC");
+  getPlace: function(query1) {
+    return axios.get(BASEURL+"facility_id="+query1+"&$order=inspection_date DESC");
   },
 
   getYelp: function(lat, long, place){
     return axios.get("https://cors-anywhere.herokuapp.com/https://api.yelp.com/v3/businesses/search?term="+place+"&latitude="+lat+"&longitude="+long, {
+      headers: {
+          Authorization: `Bearer 2ozrOdoM-iqGVuP5uozgiBk6CunvT4pCllsN7PdRctZR63EopSt0ZruMP-E6Xiv7YOzffRRDGwVqUUwMLjVdKlYk_n49Q9d7WpshV0LSbgThn9oclFErTIuS14ECXXYx`
+     },
+    })
+  },
+
+  getYelpReviews: function(id){
+    return axios.get("https://cors-anywhere.herokuapp.com/https://api.yelp.com/v3/businesses/"+id+"/reviews", {
       headers: {
           Authorization: `Bearer 2ozrOdoM-iqGVuP5uozgiBk6CunvT4pCllsN7PdRctZR63EopSt0ZruMP-E6Xiv7YOzffRRDGwVqUUwMLjVdKlYk_n49Q9d7WpshV0LSbgThn9oclFErTIuS14ECXXYx`
      },
