@@ -5,7 +5,7 @@ import MapGL, { Marker, Popup, NavigationControl } from '@urbica/react-map-gl';
 import 'mapbox-gl/dist/mapbox-gl.css';
 import Iframe from 'react-iframe';
 // import ReactMapGL, {Marker, Popup, NavigationControl} from 'react-map-gl';
-const TOKEN =  process.envTOKEN ||
+const TOKEN =  process.envTOKEN 
 
 class Details extends Component {
   state = {
@@ -16,7 +16,9 @@ class Details extends Component {
     address: localStorage.getItem('address'),
     yelpInfo: [],
     modal: false,
+    otherModal: false,
     yelpReviews: []
+    
     
     
   };
@@ -48,8 +50,10 @@ class Details extends Component {
         .catch(err => console.log(err));
             API.getYelp(this.state.lat, this.state.long, this.storeName(this.state.name))
         .then(res => {
-            console.log("In componentdidMount: "+ JSON.stringify(res.data.businesses[1]));
-            if(res.data.businesses[0] !== undefined){
+            var storeName = this.storeName(this.state.name);
+            // console.log("In componentdidMount: "+ JSON.stringify(res.data));
+            if(res.data.businesses[0] !== undefined || res.data.businesses[0].name.contains(storeName)){
+                console.log("in if state of api")
                 this.setState({yelpInfo: res.data.businesses[0]});
                 API.getYelpReviews(this.state.yelpInfo.id)
             .then(rez => {
@@ -131,7 +135,8 @@ class Details extends Component {
       if(status === true){
         return <img style={{height:"100px"}}src="https://www.pngarts.com/files/4/Sorry-We-Are-Closed-PNG-Image-Background.png" className="float-right"/>
     } else {
-          return <img style={{height:"90px"}}src="http://www.caresouth-carolina.com/wp-content/uploads/2018/10/weareopen.png" className="float-right"/>
+          // return <img style={{height:"90px"}}src="http://www.caresouth-carolina.com/wp-content/uploads/2018/10/weareopen.png" className="float-right"/>
+          return <h2 style={{color: "green"}}>OPEN</h2>
       }
   }
 
@@ -175,8 +180,54 @@ class Details extends Component {
       
   }
 
+  updateTheFavs = (id, favs) => {
+    this.toggle();
+    API.updateFavs(id, {
+      favs
+    }).then(res =>
+    {this.setState({user: res.data,
+    justAdded: true});
+  })
+}
   
+isInFavs = () => {
+  if(localStorage.getItem("inFav")==="true"){
+    return <Button color="danger" size="lg" className="float-right" onClick={() => this.delTheFavs(localStorage.getItem('id'), this.state.allInfo[0])}>Remove from Favs</Button> 
+  } else if (localStorage.getItem("inFav")==="false"){
+    return <Button color="primary" size="lg" className="float-right" onClick={() => this.updateTheFavs(localStorage.getItem('id'), this.state.allInfo[0])}>Add to Favs</Button>}
+    else if(localStorage.getItem("id")===""){
+    return <Button color="primary" size="lg" className="float-right" href="/">Back to Homepage</Button>
+    }
+}
 
+
+delTheFavs = (id, favs) => {
+  this.otherToggle()
+  console.log("TheFavsDel: " +JSON.stringify(favs));
+  API.deleteFavs(id, 
+    {favs}
+  ).then(res =>
+  {this.setState({user: res.data,
+  justAdded:false})})
+}
+
+toggle = () => {
+  if(this.state.modal === false){
+      this.setState({modal:true})
+  }else if(this.state.modal === true){
+      this.setState({modal:false})
+  }
+}
+
+otherToggle = () => {
+
+  if(this.state.otherModal === false){
+    this.setState({otherModal:true})
+}else if(this.state.otherModal === true){
+    this.setState({otherModal:false})
+}
+
+}
 
   render() {
     return (
@@ -185,9 +236,9 @@ class Details extends Component {
           <Col size="md-12">
             <Jumbotron>
               <h1>
-                {this.storeName(this.state.name)}{" "} {this.priceInfo(this.state.yelpInfo.price)}
+                {this.storeName(this.state.name)}{" "} {this.priceInfo(this.state.yelpInfo.price)} {" "} {this.isClosed(this.state.yelpInfo.is_closed)}
               </h1>
-              {this.isClosed(this.state.yelpInfo.is_closed)}
+                {this.isInFavs()}
               <h2>{this.numberofStars(this.state.yelpInfo.rating)}</h2>
             </Jumbotron>
           </Col>
@@ -248,22 +299,26 @@ class Details extends Component {
             
           ))}
           
-        {/* <Button color="danger" onClick={this.toggle}>Get Directions</Button> {" "}
+        {/* <Button color="danger" onClick={this.toggle}>Get Directions</Button> {" "} */}
         <Modal isOpen={this.state.modal} toggle={this.toggle} className="modal-dialog modal-lg"> 
-          <ModalHeader toggle={this.toggle}>Modal title</ModalHeader>
+          <ModalHeader toggle={this.toggle}>{this.storeName(this.state.name)}</ModalHeader>
           <ModalBody style={{height: '600px'}}>
-          <Iframe url={"https://www.yelp.com/map/"+this.state.yelpInfo.alias}
-        width="100%"
-        height="100%"
-        id="myId"
-        display="initial"
-        position="relative"/>          
+            <h1>Has been added to your favs!</h1>
+            <Button color="primary" href="/user">Back Home</Button>
+                   
         </ModalBody>
-          <ModalFooter>
-            <Button color="primary" onClick={this.toggle}>Do Something</Button>{' '}
-            <Button color="secondary" onClick={this.toggle}>Cancel</Button>
-          </ModalFooter>
-        </Modal> */}
+          
+        </Modal>
+
+        <Modal isOpen={this.state.otherModal} toggle={this.otherToggle} className="modal-dialog modal-lg"> 
+          <ModalHeader toggle={this.otherToggle}>{this.storeName(this.state.name)}</ModalHeader>
+          <ModalBody style={{height: '600px'}}>
+            <h1>Has been removed from your favs!</h1>
+            <Button color="primary" href="/user">Back Home</Button>
+                   
+        </ModalBody>
+          
+        </Modal>
 
         </CardBody>
       </Card>

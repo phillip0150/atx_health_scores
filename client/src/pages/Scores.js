@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import { Link } from "react-router-dom";
-import { Jumbotron, Input, Nav, Button, Form, FormGroup, Label, Container, Row, Col, Table} from 'reactstrap';
+import { Jumbotron, Badge, Input, Nav, Button, Form, FormGroup, Label, Container, Row, Col, Table} from 'reactstrap';
 import API from "../utils/API";
 // import BootstrapTable from 'react-bootstrap-table-next';
 // import { Input} from "../components/Form";
@@ -12,6 +12,65 @@ import API from "../utils/API";
 // const responseGoogle = (response) => {
 //     console.log(response);
 //   }
+import Moment from 'react-moment';
+// import $ from 'jquery';
+import BootstrapTable from 'react-bootstrap-table-next';
+import filterFactory, { textFilter } from 'react-bootstrap-table2-filter';
+import paginationFactory from 'react-bootstrap-table2-paginator';
+
+
+function dateFormatter(cell, row) {
+  
+  return (
+    <Moment format="MM/DD/YYYY">{cell}</Moment>
+  );
+}
+
+function scoreFormatter(cell, row) {
+  if(cell >= 90){
+    return <h3><Badge color="success" pill>{cell}</Badge></h3>
+  }else if(cell < 90 && cell >=80) {
+    return <h3><Badge color="primary" pill>{cell}</Badge></h3>
+  }else if(cell <80 && cell >= 70) {
+    return <h3><Badge color="warning" pill>{cell}</Badge></h3>
+  }else{
+    return <h3><Badge color="danger" pill>{cell}</Badge></h3>
+  }
+}
+const pagination = paginationFactory({
+  page: 1
+});
+const columns = [
+  {
+    text: 'Health Score   ',
+    dataField: 'score',
+    filter: textFilter(), 
+    formatter: scoreFormatter,
+    sort: true
+  },
+  {
+    text: 'Inspection Date   ',
+    dataField: 'inspection_date',
+    filter: textFilter(),
+    formatter: dateFormatter,
+    sort: true
+  },
+  {
+    text: 'Place   ',
+    dataField: 'restaurant_name',
+    filter: textFilter(),
+    sort: true
+  },
+  {
+    text: 'Address   ',
+    dataField: 'address_address',
+    filter: textFilter(),
+    sort: true
+  }, 
+  
+  
+];
+
 
 class Scores extends Component {
     state = {
@@ -20,10 +79,36 @@ class Scores extends Component {
       results: []
     };
   
+    
     componentDidMount() {
       this.searchATX();
     }
+
+    rowEvents = {
+      onClick: (e, row, cell, rowIndex) => {
+        // this.toggle();
+        console.log("theCell: "+cell)
+        console.log(rowIndex);
+        console.log(e);
+        console.log(row);
+        // this.updateTheFavs(localStorage.getItem('id'),row)
+        this.saveInfo(row.address_address, row.restaurant_name , row.address.coordinates[1], row.address.coordinates[0], row.facility_id, "")
+        window.location.href = "/place/"+row.restaurant_name;
+      }
+    }
+
+    saveInfo = (address, name , lat, long, placeid, inFav) => {
+      localStorage.setItem('address', address);
+      localStorage.setItem('name', name);
+      localStorage.setItem('lat', lat);
+      localStorage.setItem('long', long);
+      localStorage.setItem("idNumb", placeid);
+      localStorage.setItem("inFav", inFav);
+
+    }
+   
   
+    
     searchATX = () => {
       API.search()
         .then(res =>
@@ -86,61 +171,16 @@ class Scores extends Component {
     render() {
       return (
         <Container fluid>
-        <Nav><Link
-          to="/user">User Home Page</Link></Nav>
+        {/* <Nav><Link
+          to="/user">User Home Page</Link></Nav> */}
           <Row>
             <Col size="md-12">
               <Jumbotron>
-                <h1>Search a Restaurant!</h1>
+                <h1>Restaurant Inspection Scores</h1>
               </Jumbotron>
-              <Form>
-        <FormGroup>
-          <Label for="restaurantName">Restaurant</Label>
-          <Input type="text" value={this.state.restaurantName} onChange={this.handleInputChange} name="restaurantName" id="resturantName" placeholder="Enter a Restaurant" />
-        </FormGroup>
-        {/* <FormGroup>
-          <Label for="date">Inspection Date</Label>
-          <Input type="select" name="date" id="date" onChange={this.handleInputChange} value={this.state.date}>
-            <option>2015-09-13T19:00:00.000</option>
-            <option>2016-01-01T19:00:00.000</option>
-            <option>2017-01-01T19:00:00.000</option>
-            <option>2018-01-01T19:00:00.000</option>
-            <option>2019-01-01T19:00:00.000</option>
-          </Input>
-        </FormGroup> */}
-        <Button onClick={this.handleFormSubmit}>Submit</Button>
-      </Form>
-            </Col>
-        </Row>
-        <br></br>
-        <Row>
-            <Col size="md-12">
-              <Jumbotron>
-                <h1>Score Results</h1>
-              </Jumbotron>
-        <Table responsive dark>
-        <thead>
-          <tr>
-            <th>#</th>
-            <th>Restaurant Name</th>
-            <th>Restaurant Address</th>
-            <th>Score</th>
-            <th>Inspection Date</th>
-          </tr>
-        </thead>
-        <tbody>
-            {this.state.results.map((food, index) => (
-            <tr key={index}>
-            <th scope="row">{index+1}</th>
-            <td>{food.restaurant_name}</td>
-            <td>{food.address_address}</td>
-            <td>{food.score}</td>
-            <td>{food.inspection_date}</td>
-          </tr>
-            ))}
-          
-        </tbody>
-      </Table>
+              <div className="table-responsive" >
+              <BootstrapTable classes="table-dark" bootstrap4 keyField='id' data={ this.state.results } columns={ columns }  filter={ filterFactory() }  rowEvents={this.rowEvents} pagination={ pagination }/>
+              </div>
             </Col>
           </Row>
         </Container>

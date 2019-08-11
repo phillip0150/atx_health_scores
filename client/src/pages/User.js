@@ -11,17 +11,14 @@ import Moment from 'react-moment';
 import BootstrapTable from 'react-bootstrap-table-next';
 import filterFactory, { textFilter } from 'react-bootstrap-table2-filter';
 import paginationFactory from 'react-bootstrap-table2-paginator';
-import ToolkitProvider, { CSVExport, Search } from 'react-bootstrap-table2-toolkit';
-const { SearchBar } = Search;
-const { ExportCSVButton } = CSVExport;
 
 
 
 
 
 //api token for react-map-gl
-const TOKEN =  process.envTOKEN || 
-const GOOGLE = process.envGOOGLE || 
+const TOKEN =  process.envTOKEN 
+const GOOGLE = process.envGOOGLE 
 function dateFormatter(cell, row) {
   
   return (
@@ -92,12 +89,15 @@ class User extends Component {
   
 
     rowEvents = {
-      onClick: (e, row, rowIndex) => {
-        this.toggle();
+      onClick: (e, row, cell, rowIndex) => {
+        // this.toggle();
+        console.log("theCell: "+cell)
         console.log(rowIndex);
         console.log(e);
         console.log(row);
-        this.updateTheFavs(localStorage.getItem('id'),row)
+        // this.updateTheFavs(localStorage.getItem('id'),row)
+        this.saveInfo(row.address_address, row.restaurant_name , row.address.coordinates[1], row.address.coordinates[0], row.facility_id, false)
+        window.location.href = "/place/"+row.restaurant_name;
       }
     }
    
@@ -218,12 +218,13 @@ class User extends Component {
       {this.setState({user: res.data});})
     }
 
-    saveInfo = (address, name , lat, long, placeid) => {
+    saveInfo = (address, name , lat, long, placeid, inFav) => {
       localStorage.setItem('address', address);
       localStorage.setItem('name', name);
       localStorage.setItem('lat', lat);
       localStorage.setItem('long', long);
-      localStorage.setItem("idNumb", placeid)
+      localStorage.setItem("idNumb", placeid);
+      localStorage.setItem("inFav", inFav);
 
     }
 
@@ -267,6 +268,7 @@ class User extends Component {
     //logging out the user
     //setting user state to empty and local storage id to empty
     logout = () => {
+      console.log("in logout")
       localStorage.setItem('id', "");
       this.setState({user:[]});
     }
@@ -298,17 +300,15 @@ class User extends Component {
     render() {
       return (
         <Container fluid>
-        <Nav><GoogleLogout
-      clientId={GOOGLE}
-      buttonText="Logout"
-      onLogoutSuccess={this.logout}
-    >
-    </GoogleLogout></Nav>
           {this.state.user._id ? (
             <Row>
               <Col size="md-6">
                 <Jumbotron>
                   <h1>Welcome {this.state.user.name}</h1>
+                  <GoogleLogout
+                    clientId={GOOGLE}
+                    buttonText="Logout"
+                    onLogoutSuccess={this.logout}></GoogleLogout>
                 </Jumbotron>
                 <Button color="primary" onClick={this.toggleFavs} style={{ marginBottom: '1rem'}} size="lg">Toggle Favs</Button>
 
@@ -336,7 +336,7 @@ class User extends Component {
         <CardTitle><div style={{wordWrap: "break-word", textAlign: "center"}}>{this.reduceName(favs.restaurant_name)} {" "} {this.whichBadge(favs.score)}</div></CardTitle>
         </Media>
         <br></br>
-        <Button style={{width:"80%", marginLeft: "10%"}} href={"place/"+favs.restaurant_name} onClick={()=> this.saveInfo(favs.address_address, favs.restaurant_name, favs.address.coordinates[1], favs.address.coordinates[0], favs.facility_id)} size="lg">Info</Button>
+        <Button style={{width:"80%", marginLeft: "10%"}} href={"place/"+favs.restaurant_name} onClick={()=> this.saveInfo(favs.address_address, favs.restaurant_name, favs.address.coordinates[1], favs.address.coordinates[0], favs.facility_id, true)} size="lg">Info</Button>
         <br></br>
         <br></br>
         <Button style={{width:"80%", marginLeft: "10%"}} onClick={() => this.delTheFavs(localStorage.getItem('id'), favs)} color="danger" size="lg">Remove</Button>
@@ -348,30 +348,11 @@ class User extends Component {
               
               <Col >
               <Jumbotron>
-                <h1>Health Scores Around Austin</h1>
+                <h1>Restaurant Inspection Scores</h1>
               </Jumbotron>
         
-    <div className="table-responsive" ><ToolkitProvider
-  keyField="id"
-  data={ this.state.results }
-  columns={ columns }
-  exportCSV={ { onlyExportFiltered: true, exportAll: false } }
-  search
->
-  {
-    props => (
-      <div>
-        <ExportCSVButton { ...props.csvProps }>Export CSV!!</ExportCSVButton>
-        <hr />
-
-        <BootstrapTable
-          bootstrap4 keyField='id' data={ this.state.results } columns={ columns }  filter={ filterFactory() }  rowEvents={this.rowEvents} pagination={ pagination }
-        />
-      </div>
-    )
-  }
-</ToolkitProvider>
-    {/* <BootstrapTable bootstrap4 keyField='id' data={ this.state.results } columns={ columns }  filter={ filterFactory() }  rowEvents={this.rowEvents} pagination={ pagination }/> */}
+    <div className="table-responsive" >
+    <BootstrapTable classes="table-dark" bootstrap4 keyField='id' data={ this.state.results } columns={ columns }  filter={ filterFactory() }  rowEvents={this.rowEvents} pagination={ pagination }/>
     </div>
     <div>
        
