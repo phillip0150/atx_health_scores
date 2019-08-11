@@ -17,8 +17,8 @@ import paginationFactory from 'react-bootstrap-table2-paginator';
 
 
 //api token for react-map-gl
-const TOKEN =  process.envTOKEN 
-const GOOGLE = process.envGOOGLE 
+const TOKEN =  process.env.TOKEN
+const GOOGLE = process.env.GOOGLE
 function dateFormatter(cell, row) {
   
   return (

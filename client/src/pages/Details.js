@@ -5,7 +5,7 @@ import MapGL, { Marker, Popup, NavigationControl } from '@urbica/react-map-gl';
 import 'mapbox-gl/dist/mapbox-gl.css';
 import Iframe from 'react-iframe';
 // import ReactMapGL, {Marker, Popup, NavigationControl} from 'react-map-gl';
-const TOKEN =  process.envTOKEN 
+const TOKEN =  process.env.TOKEN
 
 class Details extends Component {
   state = {
