@@ -5,7 +5,7 @@ import App from './App';
 import * as serviceWorker from './serviceWorker';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import 'mapbox-gl/dist/mapbox-gl.css';
-console.log(process.env)
+
 
 
 ReactDOM.render(<App />, document.getElementById('root'));

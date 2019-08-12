@@ -9,7 +9,7 @@ import Iframe from 'react-iframe';
 
 
 // import ReactMapGL, {Marker, Popup, NavigationControl} from 'react-map-gl';
-const TOKEN =  process.env.REACT_APP_MAP_TOKEN
+
 
 class Details extends Component {
   state = {
@@ -29,7 +29,7 @@ class Details extends Component {
 
   storeName = (name) =>{
     // var s = '/Controller/Action?id=11112&value=4444';
-      console.log(process.env)
+
       if(name.includes("COTA ")){
           return "Circuit of the Americas"
       }else if(name.includes("HEB ")){
@@ -257,7 +257,7 @@ otherToggle = () => {
                longitude={parseFloat(localStorage.getItem('long'))}
                zoom={12}
                mapStyle='mapbox://styles/mapbox/light-v9'
-               accessToken={TOKEN}
+               accessToken={process.env.REACT_APP_MAP_TOKEN}
              >
             <Marker latitude={parseFloat(localStorage.getItem('lat'))} longitude={parseFloat(localStorage.getItem('long'))} offsetLeft={-20} offsetTop={-10}>
              <div><span role="img">📍</span></div>

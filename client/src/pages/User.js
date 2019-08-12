@@ -16,10 +16,9 @@ import paginationFactory from 'react-bootstrap-table2-paginator';
 
 
 
-console.log(process.env)
+
 //api token for react-map-gl
-const TOKEN =  process.env.REACT_APP_MAP
-const GOOGLE = process.env.REACT_APP_GOOGLE
+
 function dateFormatter(cell, row) {
   
   return (
@@ -307,7 +306,7 @@ class User extends Component {
                 <Jumbotron>
                   <h1>Welcome {this.state.user.name}</h1>
                   <GoogleLogout
-                    clientId={GOOGLE}
+                    clientId={process.env.REACT_APP_GOOGLE}
                     buttonText="Logout"
                     onLogoutSuccess={this.logout}></GoogleLogout>
                 </Jumbotron>
@@ -325,7 +324,7 @@ class User extends Component {
         latitude={favs.address.coordinates[1]}
         longitude={favs.address.coordinates[0]}
         zoom={12}
-        mapboxApiAccessToken={TOKEN}
+        mapboxApiAccessToken={process.env.REACT_APP_MAP_TOKEN}
         onViewportChange={(viewport) => this.setState({viewport})}
       ><Marker latitude={favs.address.coordinates[1]} longitude={favs.address.coordinates[0]} offsetLeft={-20} offsetTop={-10}>
       <div>📍</div>
@@ -375,7 +374,7 @@ class User extends Component {
                     <Jumbotron>
                       <h1>Please Login...</h1>
                       <GoogleLogin
-                  clientId={GOOGLE}
+                  clientId={process.env.REACT_APP_GOOGLE}
                   buttonText="Login"
                   onSuccess={this.responseGoogle}
                   onFailure={this.responseGoogle}
