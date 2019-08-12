@@ -12,8 +12,8 @@ import BootstrapTable from 'react-bootstrap-table-next';
 import filterFactory, { textFilter } from 'react-bootstrap-table2-filter';
 import paginationFactory from 'react-bootstrap-table2-paginator';
 
-const MAP = process.env.REACT_APP_MAP
-const GOOGLE = process.env.REACT_APP_GOOGLE
+const MAP = process.env.REACT_APP_MAP 
+const GOOGLE = process.env.REACT_APP_GOOGLE 
 
 
 

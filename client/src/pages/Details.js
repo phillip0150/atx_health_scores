@@ -8,7 +8,7 @@ import Iframe from 'react-iframe';
 
 
 // import ReactMapGL, {Marker, Popup, NavigationControl} from 'react-map-gl';
-const MAP = process.env.REACT_APP_MAP
+const MAP = process.env.REACT_APP_MAP 
 
 
 class Details extends Component {
@@ -137,7 +137,8 @@ class Details extends Component {
  
   isClosed = (openNow) => {
       if(openNow !== true){
-        return <img style={{height:"100px"}}src="https://www.pngarts.com/files/4/Sorry-We-Are-Closed-PNG-Image-Background.png" className="float-right"/>
+        return <h2 style={{color: "red"}}>CLOSED</h2>
+        // return <img style={{height:"100px"}}src="https://www.pngarts.com/files/4/Sorry-We-Are-Closed-PNG-Image-Background.png" className="float-right"/>
     } else {
           // return <img style={{height:"90px"}}src="http://www.caresouth-carolina.com/wp-content/uploads/2018/10/weareopen.png" className="float-right"/>
           return <h2 style={{color: "green"}}>OPEN</h2>
@@ -194,11 +195,11 @@ class Details extends Component {
   
 isInFavs = () => {
   if(localStorage.getItem("inFav")==="true"){
-    return <Button color="danger" size="lg" className="float-right" onClick={() => this.delTheFavs(localStorage.getItem('id'), this.state.allInfo[0])}>Remove from Favs</Button> 
+    return <Button color="danger" size="lg" className="float-right" onClick={() => this.delTheFavs(localStorage.getItem('id'), this.state.allInfo[0])}>Remove from Favs</Button>
   } else if (localStorage.getItem("inFav")==="false"){
     return <Button color="primary" size="lg" className="float-right" onClick={() => this.updateTheFavs(localStorage.getItem('id'), this.state.allInfo[0])}>Add to Favs</Button>}
     else if(localStorage.getItem("id")===""){
-    return <Button color="primary" size="lg" className="float-right" href="/">Back to Homepage</Button>
+    return <Button color="primary" size="lg" className="float-right" href="/">Home</Button>
     }
 }
 
@@ -238,10 +239,11 @@ otherToggle = () => {
           <Col size="md-12">
             <Jumbotron>
               <h1>
-                {this.storeName(this.state.name)}{" "} {this.priceInfo(this.state.yelpInfo.price)} {" "} {this.isClosed(this.state.yelpInfo.open_now)}
+                {this.storeName(this.state.name)}{" "} {this.priceInfo(this.state.yelpInfo.price)} {" "} {this.isClosed(this.state.yelpInfo.open_now)}{this.isInFavs()}
               </h1>
-                {this.isInFavs()}
-              <h2>{this.numberofStars(this.state.yelpInfo.rating)}</h2>
+                <br></br> 
+              <h2><br></br> {this.numberofStars(this.state.yelpInfo.rating)}</h2>
+              
             </Jumbotron>
           </Col>
         </Row>
@@ -295,7 +297,7 @@ otherToggle = () => {
                 
             <CardBody>
           <CardTitle><img src={this.state.yelpInfo.image_url} style={{ width: '100%'}} /></CardTitle>
-          <CardSubtitle><h2>Recent Reviews</h2></CardSubtitle>
+          <CardSubtitle><h2>Recent Yelp Reviews</h2></CardSubtitle>
           {this.state.yelpReviews.map((review, index) => (
             <CardText key={index}><h5>{review.text} {' '} {this.numberofStars(review.rating)}</h5></CardText>
             
