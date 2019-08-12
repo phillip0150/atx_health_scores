@@ -319,8 +319,8 @@ class User extends Component {
                   <Media>
       <Media key={index} left href="#">
       <ReactMapGL
-        width={200}
-        height={250}
+        width={100}
+        height={150}
         latitude={favs.address.coordinates[1]}
         longitude={favs.address.coordinates[0]}
         zoom={12}
