@@ -11,14 +11,15 @@ import Moment from 'react-moment';
 import BootstrapTable from 'react-bootstrap-table-next';
 import filterFactory, { textFilter } from 'react-bootstrap-table2-filter';
 import paginationFactory from 'react-bootstrap-table2-paginator';
+require("dotenv").config();
 
 
 
 
 
 //api token for react-map-gl
-const TOKEN =  process.env.TOKEN
-const GOOGLE = process.env.GOOGLE
+const TOKEN =  process.env.MAP_TOKEN
+const GOOGLE = process.env.GOOGLE_TOKEN
 function dateFormatter(cell, row) {
   
   return (

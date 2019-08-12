@@ -1,11 +1,13 @@
+
 import React, { Component } from "react";
 import { Form, FormGroup, Label, Input, Jumbotron, Container, Row, Col, Card, Modal, ModalHeader, ModalBody,ModalFooter, CardBody, CardTitle, CardSubtitle, CardText, Button} from 'reactstrap';
 import API from "../utils/API";
 import MapGL, { Marker, Popup, NavigationControl } from '@urbica/react-map-gl';
 import 'mapbox-gl/dist/mapbox-gl.css';
 import Iframe from 'react-iframe';
+require("dotenv").config();
 // import ReactMapGL, {Marker, Popup, NavigationControl} from 'react-map-gl';
-const TOKEN =  process.env.TOKEN
+const TOKEN =  process.env.MAP_TOKEN
 
 class Details extends Component {
   state = {
