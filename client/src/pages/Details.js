@@ -135,8 +135,8 @@ class Details extends Component {
 
  
  
-  isClosed = (status) => {
-      if(status === true){
+  isClosed = (openNow) => {
+      if(openNow !== true){
         return <img style={{height:"100px"}}src="https://www.pngarts.com/files/4/Sorry-We-Are-Closed-PNG-Image-Background.png" className="float-right"/>
     } else {
           // return <img style={{height:"90px"}}src="http://www.caresouth-carolina.com/wp-content/uploads/2018/10/weareopen.png" className="float-right"/>
@@ -238,7 +238,7 @@ otherToggle = () => {
           <Col size="md-12">
             <Jumbotron>
               <h1>
-                {this.storeName(this.state.name)}{" "} {this.priceInfo(this.state.yelpInfo.price)} {" "} {this.isClosed(this.state.yelpInfo.is_closed)}
+                {this.storeName(this.state.name)}{" "} {this.priceInfo(this.state.yelpInfo.price)} {" "} {this.isClosed(this.state.yelpInfo.open_now)}
               </h1>
                 {this.isInFavs()}
               <h2>{this.numberofStars(this.state.yelpInfo.rating)}</h2>
