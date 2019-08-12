@@ -5,7 +5,8 @@ import API from "../utils/API";
 import MapGL, { Marker, Popup, NavigationControl } from '@urbica/react-map-gl';
 import 'mapbox-gl/dist/mapbox-gl.css';
 import Iframe from 'react-iframe';
-require("dotenv").config();
+import dotenv from 'dotenv'
+dotenv.config()
 // import ReactMapGL, {Marker, Popup, NavigationControl} from 'react-map-gl';
 const TOKEN =  process.env.MAP_TOKEN
 
@@ -27,7 +28,7 @@ class Details extends Component {
 
   storeName = (name) =>{
     // var s = '/Controller/Action?id=11112&value=4444';
-    
+      console.log(process.env)
       if(name.includes("COTA ")){
           return "Circuit of the Americas"
       }else if(name.includes("HEB ")){

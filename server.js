@@ -1,5 +1,5 @@
 const express = require("express");
-require("dotenv").config();
+require('dotenv').config();
 
 const mongoose = require("mongoose");
 const routes = require("./routes");
@@ -23,4 +23,5 @@ mongoose.connect(process.env.MONGODB_URI || "mongodb://localhost/atxfoodscores")
 // Start the API server
 app.listen(PORT, function() {
   console.log(`🌎  ==> API Server now listening on PORT ${PORT}!`);
+  console.log(process.env)
 });
