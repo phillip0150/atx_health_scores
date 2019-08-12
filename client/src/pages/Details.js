@@ -5,10 +5,11 @@ import API from "../utils/API";
 import MapGL, { Marker, Popup, NavigationControl } from '@urbica/react-map-gl';
 import 'mapbox-gl/dist/mapbox-gl.css';
 import Iframe from 'react-iframe';
-import dotenv from 'dotenv'
-dotenv.config()
+
+
+
 // import ReactMapGL, {Marker, Popup, NavigationControl} from 'react-map-gl';
-const TOKEN =  process.env.MAP_TOKEN
+const TOKEN =  process.env.REACT_APP_MAP_TOKEN
 
 class Details extends Component {
   state = {
