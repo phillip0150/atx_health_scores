@@ -83,6 +83,7 @@ class Scores extends Component {
     
     componentDidMount() {
       this.searchATX();
+      localStorage.setItem('id', "");
     }
 
     rowEvents = {

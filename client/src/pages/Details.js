@@ -8,6 +8,7 @@ import Iframe from 'react-iframe';
 
 
 // import ReactMapGL, {Marker, Popup, NavigationControl} from 'react-map-gl';
+const MAP = process.env.REACT_APP_MAP
 
 
 class Details extends Component {
@@ -254,7 +255,7 @@ otherToggle = () => {
                longitude={parseFloat(localStorage.getItem('long'))}
                zoom={12}
                mapStyle='mapbox://styles/mapbox/light-v9'
-               accessToken={process.env.REACT_APP_MAP}
+               accessToken={MAP}
              >
             <Marker latitude={parseFloat(localStorage.getItem('lat'))} longitude={parseFloat(localStorage.getItem('long'))} offsetLeft={-20} offsetTop={-10}>
              <div><span role="img">📍</span></div>

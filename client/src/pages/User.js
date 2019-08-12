@@ -12,7 +12,8 @@ import BootstrapTable from 'react-bootstrap-table-next';
 import filterFactory, { textFilter } from 'react-bootstrap-table2-filter';
 import paginationFactory from 'react-bootstrap-table2-paginator';
 
-
+const MAP = process.env.REACT_APP_MAP
+const GOOGLE = process.env.REACT_APP_GOOGLE
 
 
 
@@ -105,7 +106,6 @@ class User extends Component {
     componentDidMount() {
       //doing a search of all food scores
       this.searchATX();
-      console.log("in component mount");
       //checking local storage for user id
       if(localStorage.getItem('id').length === 0){
         //setting user state to empty
@@ -306,7 +306,7 @@ class User extends Component {
                 <Jumbotron>
                   <h1>Welcome {this.state.user.name}</h1>
                   <GoogleLogout
-                    clientId={process.env.REACT_APP_GOOGLE}
+                    clientId={GOOGLE}
                     buttonText="Logout"
                     onLogoutSuccess={this.logout}></GoogleLogout>
                 </Jumbotron>
@@ -324,7 +324,7 @@ class User extends Component {
         latitude={favs.address.coordinates[1]}
         longitude={favs.address.coordinates[0]}
         zoom={12}
-        mapboxApiAccessToken={process.env.REACT_APP_MAP}
+        mapboxApiAccessToken={MAP}
         onViewportChange={(viewport) => this.setState({viewport})}
       ><Marker latitude={favs.address.coordinates[1]} longitude={favs.address.coordinates[0]} offsetLeft={-20} offsetTop={-10}>
       <div>📍</div>
@@ -374,7 +374,7 @@ class User extends Component {
                     <Jumbotron>
                       <h1>Please Login...</h1>
                       <GoogleLogin
-                  clientId={process.env.REACT_APP_GOOGLE}
+                  clientId={GOOGLE}
                   buttonText="Login"
                   onSuccess={this.responseGoogle}
                   onFailure={this.responseGoogle}
