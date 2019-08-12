@@ -324,7 +324,7 @@ class User extends Component {
         latitude={favs.address.coordinates[1]}
         longitude={favs.address.coordinates[0]}
         zoom={12}
-        mapboxApiAccessToken={process.env.REACT_APP_MAP_TOKEN}
+        mapboxApiAccessToken={process.env.REACT_APP_MAP}
         onViewportChange={(viewport) => this.setState({viewport})}
       ><Marker latitude={favs.address.coordinates[1]} longitude={favs.address.coordinates[0]} offsetLeft={-20} offsetTop={-10}>
       <div>📍</div>

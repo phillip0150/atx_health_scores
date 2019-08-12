@@ -7,7 +7,6 @@ import 'mapbox-gl/dist/mapbox-gl.css';
 import Iframe from 'react-iframe';
 
 
-
 // import ReactMapGL, {Marker, Popup, NavigationControl} from 'react-map-gl';
 
 
@@ -170,8 +169,6 @@ class Details extends Component {
   }
 
   disableButtons = (call, yelp) => {
-      console.log(yelp);
-      console.log(call);
       if(call === undefined && yelp===undefined){
         return <div></div>
       }else if (call === undefined && yelp!==undefined){
@@ -257,7 +254,7 @@ otherToggle = () => {
                longitude={parseFloat(localStorage.getItem('long'))}
                zoom={12}
                mapStyle='mapbox://styles/mapbox/light-v9'
-               accessToken={process.env.REACT_APP_MAP_TOKEN}
+               accessToken={process.env.REACT_APP_MAP}
              >
             <Marker latitude={parseFloat(localStorage.getItem('lat'))} longitude={parseFloat(localStorage.getItem('long'))} offsetLeft={-20} offsetTop={-10}>
              <div><span role="img">📍</span></div>
