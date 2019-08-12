@@ -1,13 +1,10 @@
 import React, { Component } from "react";
-// import { Link } from "react-router-dom";
-import { Media, Modal, Collapse, ModalBody, ModalFooter, Card, CardBody, CardTitle, Badge, Jumbotron, Input, Nav, Button, Form, FormGroup, Label, Container, Row, Col, Table} from 'reactstrap';
+import { Media, Modal, Collapse, ModalBody, ModalFooter, Card, CardBody, CardTitle, Badge, Jumbotron, Button, Container, Row, Col} from 'reactstrap';
 import API from "../utils/API";
 import { GoogleLogin } from 'react-google-login';
-// import Iframe from 'react-iframe'
 import ReactMapGL, {Marker} from 'react-map-gl';
 import { GoogleLogout } from 'react-google-login';
 import Moment from 'react-moment';
-// import $ from 'jquery';
 import BootstrapTable from 'react-bootstrap-table-next';
 import filterFactory, { textFilter } from 'react-bootstrap-table2-filter';
 import paginationFactory from 'react-bootstrap-table2-paginator';
@@ -327,7 +324,7 @@ class User extends Component {
         mapboxApiAccessToken={MAP}
         onViewportChange={(viewport) => this.setState({viewport})}
       ><Marker latitude={favs.address.coordinates[1]} longitude={favs.address.coordinates[0]} offsetLeft={-20} offsetTop={-10}>
-      <div>📍</div>
+      <span role="img" aria-label="pin">📍</span>
     </Marker></ReactMapGL>
       <br></br>
       </Media>
@@ -348,7 +345,7 @@ class User extends Component {
               
               <Col >
               <Jumbotron>
-                <h1>Restaurant Inspection Scores</h1>
+                <h1>Food Establishment Inspection Scores</h1>
               </Jumbotron>
         
     <div className="table-responsive" >

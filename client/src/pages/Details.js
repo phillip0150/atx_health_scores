@@ -1,14 +1,10 @@
 
 import React, { Component } from "react";
-import { Form, FormGroup, Label, Input, Jumbotron, Container, Row, Col, Card, Modal, ModalHeader, ModalBody,ModalFooter, CardBody, CardTitle, CardSubtitle, CardText, Button} from 'reactstrap';
+import { Form, Label, Input, Jumbotron, Container, Row, Col, Card, Modal, ModalHeader, ModalBody, CardBody, CardTitle, CardSubtitle, CardText, Button} from 'reactstrap';
 import API from "../utils/API";
-import MapGL, { Marker, Popup, NavigationControl } from '@urbica/react-map-gl';
+import MapGL, { Marker, NavigationControl } from '@urbica/react-map-gl';
 import 'mapbox-gl/dist/mapbox-gl.css';
-import Iframe from 'react-iframe';
-
-
-// import ReactMapGL, {Marker, Popup, NavigationControl} from 'react-map-gl';
-const MAP = process.env.REACT_APP_MAP 
+const MAP = process.env.REACT_APP_MAP
 
 
 class Details extends Component {
@@ -21,10 +17,10 @@ class Details extends Component {
     yelpInfo: [],
     modal: false,
     otherModal: false,
-    yelpReviews: []
+    yelpReviews: [],
+    getYelp: false
     
-    
-    
+     
   };
 
   storeName = (name) =>{
@@ -36,6 +32,8 @@ class Details extends Component {
           return "HEB Store"
       }else if(name.includes("#")){
         return name.substring(0, name.indexOf('#'));
+      }else if (name.includes("Pizzaria")){
+        return "Yaghi's New York Pizzeria"
       }
       else{
           return name;
@@ -52,21 +50,31 @@ class Details extends Component {
         name: res.data[0].restaurant_name});
         })
         .catch(err => console.log(err));
-            API.getYelp(this.state.lat, this.state.long, this.storeName(this.state.name))
+            console.log("the store name: "+ this.storeName(this.state.name))
+            API.getYelp(this.state.lat, this.state.long, this.state.address, this.storeName(this.state.name))
         .then(res => {
             var storeName = this.storeName(this.state.name);
-            // console.log("In componentdidMount: "+ JSON.stringify(res.data));
-            if(res.data.businesses[0] !== undefined || res.data.businesses[0].name.contains(storeName)){
-                console.log("in if state of api")
-                this.setState({yelpInfo: res.data.businesses[0]});
+            console.log("In getYlep: "+ JSON.stringify(res.data));
+            for(var x in res.data.businesses){
+              var inIf = false
+              console.log("in for loop: "+ res.data.businesses[x].location.address1 + " name " + res.data.businesses[x].name)
+if (res.data.businesses[x].name !== null && res.data.businesses[x].location.address1 !== null){
+              if((res.data.businesses[x].name.includes(storeName) || res.data.businesses[x].location.address1.toLowerCase() === this.state.address.toLowerCase())){
+                console.log("in if state of api: "+ res.data.businesses[x])
+                this.setState({yelpInfo: res.data.businesses[x], getYelp: true});
                 API.getYelpReviews(this.state.yelpInfo.id)
             .then(rez => {
             console.log(rez.data.reviews)
             this.setState({yelpReviews: rez.data.reviews});
-          
-          
-        })  
-            }
+                })  
+                inIf = true;
+                }
+              if(inIf === true)
+              {
+                break;
+              }
+            }}
+            
             
         });
         // }else {
@@ -97,29 +105,29 @@ class Details extends Component {
         number = parseInt(x)+1;
 
       }
-      return score/number;
+      return (score/number).toFixed(2);
   }
 
 
   numberofStars = (number) => {
     if(number >= 5){
-        return <div><img src="https://img.icons8.com/ios-filled/50/000000/christmas-star.png"></img><img src="https://img.icons8.com/ios-filled/50/000000/christmas-star.png"></img><img src="https://img.icons8.com/ios-filled/50/000000/christmas-star.png"></img><img src="https://img.icons8.com/ios-filled/50/000000/christmas-star.png"></img><img src="https://img.icons8.com/ios-filled/50/000000/christmas-star.png"></img></div>
+        return <div><img alt="star" src="https://img.icons8.com/ios-filled/50/000000/christmas-star.png"></img><img alt="star"src="https://img.icons8.com/ios-filled/50/000000/christmas-star.png"></img><img alt="star" src="https://img.icons8.com/ios-filled/50/000000/christmas-star.png"></img><img alt="star" src="https://img.icons8.com/ios-filled/50/000000/christmas-star.png"></img><img alt="star" src="https://img.icons8.com/ios-filled/50/000000/christmas-star.png"></img></div>
     }else if(number >=4 && number <4.5 ){
-        return <div><img src="https://img.icons8.com/ios-filled/50/000000/christmas-star.png"></img><img src="https://img.icons8.com/ios-filled/50/000000/christmas-star.png"></img><img src="https://img.icons8.com/ios-filled/50/000000/christmas-star.png"></img><img src="https://img.icons8.com/ios-filled/50/000000/christmas-star.png"></img></div>
+        return <div><img alt="star" src="https://img.icons8.com/ios-filled/50/000000/christmas-star.png"></img><img alt="star" src="https://img.icons8.com/ios-filled/50/000000/christmas-star.png"></img><img alt="star" src="https://img.icons8.com/ios-filled/50/000000/christmas-star.png"></img><img alt="star" src="https://img.icons8.com/ios-filled/50/000000/christmas-star.png"></img></div>
     }else if (number >=3 && number <3.5) {
-        return <div><img src="https://img.icons8.com/ios-filled/50/000000/christmas-star.png"></img><img src="https://img.icons8.com/ios-filled/50/000000/christmas-star.png"></img><img src="https://img.icons8.com/ios-filled/50/000000/christmas-star.png"></img></div>
+        return <div><img alt="star" src="https://img.icons8.com/ios-filled/50/000000/christmas-star.png"></img><img alt="star" src="https://img.icons8.com/ios-filled/50/000000/christmas-star.png"></img><img alt="star" src="https://img.icons8.com/ios-filled/50/000000/christmas-star.png"></img></div>
     }else if (number >=2 && number < 2.5){
-        return <div><img src="https://img.icons8.com/ios-filled/50/000000/christmas-star.png"></img><img src="https://img.icons8.com/ios-filled/50/000000/christmas-star.png"></img></div>
+        return <div><img alt="star" src="https://img.icons8.com/ios-filled/50/000000/christmas-star.png"></img><img alt="star" src="https://img.icons8.com/ios-filled/50/000000/christmas-star.png"></img></div>
     }else if (number >=1 && number < 1.5){
-        return <div><img src="https://img.icons8.com/ios-filled/50/000000/christmas-star.png"></img></div>
+        return <div><img alt="star" src="https://img.icons8.com/ios-filled/50/000000/christmas-star.png"></img></div>
     }else if(number >= 4.5){
-        return <div><img src="https://img.icons8.com/ios-filled/50/000000/christmas-star.png"></img><img src="https://img.icons8.com/ios-filled/50/000000/christmas-star.png"></img><img src="https://img.icons8.com/ios-filled/50/000000/christmas-star.png"></img><img src="https://img.icons8.com/ios-filled/50/000000/christmas-star.png"></img><img src="https://img.icons8.com/ios-filled/50/000000/star-half.png"></img></div>
+        return <div><img alt="star" src="https://img.icons8.com/ios-filled/50/000000/christmas-star.png"></img><img alt="star" src="https://img.icons8.com/ios-filled/50/000000/christmas-star.png"></img><img alt="star" src="https://img.icons8.com/ios-filled/50/000000/christmas-star.png"></img><img alt="star" src="https://img.icons8.com/ios-filled/50/000000/christmas-star.png"></img><img alt="star" src="https://img.icons8.com/ios-filled/50/000000/star-half.png"></img></div>
     }else if (number <4 && number >=3.5){
-        return <div><img src="https://img.icons8.com/ios-filled/50/000000/christmas-star.png"></img><img src="https://img.icons8.com/ios-filled/50/000000/christmas-star.png"></img><img src="https://img.icons8.com/ios-filled/50/000000/christmas-star.png"></img><img src="https://img.icons8.com/ios-filled/50/000000/star-half.png"></img></div>
+        return <div><img alt="star" src="https://img.icons8.com/ios-filled/50/000000/christmas-star.png"></img><img alt="star" src="https://img.icons8.com/ios-filled/50/000000/christmas-star.png"></img><img alt="star" src="https://img.icons8.com/ios-filled/50/000000/christmas-star.png"></img><img alt="star" src="https://img.icons8.com/ios-filled/50/000000/star-half.png"></img></div>
     }else if (number <3.5 && number >= 2){
-        return <div><img src="https://img.icons8.com/ios-filled/50/000000/christmas-star.png"></img><img src="https://img.icons8.com/ios-filled/50/000000/christmas-star.png"></img><img src="https://img.icons8.com/ios-filled/50/000000/star-half.png"></img></div>
+        return <div><img alt="star" src="https://img.icons8.com/ios-filled/50/000000/christmas-star.png"></img><img alt="star" src="https://img.icons8.com/ios-filled/50/000000/christmas-star.png"></img><img alt="star" src="https://img.icons8.com/ios-filled/50/000000/star-half.png"></img></div>
     }else if (number <2.5 && number >= 1){
-        return <div><img src="https://img.icons8.com/ios-filled/50/000000/christmas-star.png"></img><img src="https://img.icons8.com/ios-filled/50/000000/star-half.png"></img>{this.state.yelpInfo.review_count}Reviews</div>
+        return <div><img alt="star" src="https://img.icons8.com/ios-filled/50/000000/christmas-star.png"></img><img alt="star" src="https://img.icons8.com/ios-filled/50/000000/star-half.png"></img></div>
     }else {
         return <div></div>
     }
@@ -135,15 +143,7 @@ class Details extends Component {
 
  
  
-  isClosed = (openNow) => {
-      if(openNow !== true){
-        return <h2 style={{color: "red"}}>CLOSED</h2>
-        // return <img style={{height:"100px"}}src="https://www.pngarts.com/files/4/Sorry-We-Are-Closed-PNG-Image-Background.png" className="float-right"/>
-    } else {
-          // return <img style={{height:"90px"}}src="http://www.caresouth-carolina.com/wp-content/uploads/2018/10/weareopen.png" className="float-right"/>
-          return <h2 style={{color: "green"}}>OPEN</h2>
-      }
-  }
+
 
   priceInfo = (price) => {
     
@@ -239,10 +239,10 @@ otherToggle = () => {
           <Col size="md-12">
             <Jumbotron>
               <h1>
-                {this.storeName(this.state.name)}{" "} {this.priceInfo(this.state.yelpInfo.price)} {" "} {this.isClosed(this.state.yelpInfo.open_now)}{this.isInFavs()}
+                {this.storeName(this.state.name)}{" "} {this.priceInfo(this.state.yelpInfo.price)} {" "}{this.isInFavs()}
               </h1>
                 <br></br> 
-              <h2><br></br> {this.numberofStars(this.state.yelpInfo.rating)}</h2>
+                {this.numberofStars(this.state.yelpInfo.rating)} {this.state.yelpInfo.review_count ? (this.state.yelpInfo.review_count+ " Reviews") : ("")}
               
             </Jumbotron>
           </Col>
@@ -260,17 +260,17 @@ otherToggle = () => {
                accessToken={MAP}
              >
             <Marker latitude={parseFloat(localStorage.getItem('lat'))} longitude={parseFloat(localStorage.getItem('long'))} offsetLeft={-20} offsetTop={-10}>
-             <div><span role="img">📍</span></div>
+            <span role="img" aria-label="pin">📍</span>
            </Marker>  
             <NavigationControl showCompass showZoom position='top-right' />
             </MapGL>        
             <CardBody>
-          <CardTitle style={{textAlign: "center"}}>📍<h2 >{this.state.address}</h2></CardTitle>
+          <CardTitle style={{textAlign: "center"}}> <span role="img" aria-label="pin">📍</span><h2 >{this.state.address}</h2></CardTitle>
           <Card style={{ width: '80%', margin: "auto", padding: "10px", textAlign: "center" }}>
               <CardBody><h2>Average Health Score:</h2><h3> {this.calcAvgScore()} out of 100</h3> 
               
               <br></br>
-              Data provided by <br></br><a href="https://data.austintexas.gov"><img style={{ width: '50%'}} src="https://pbs.twimg.com/profile_images/481878662145261569/wb28aHGD.jpeg"></img></a> </CardBody>
+              Data provided by <br></br><a href="https://data.austintexas.gov"><img style={{ width: '50%'}} alt="atx_city_logo" src="https://pbs.twimg.com/profile_images/481878662145261569/wb28aHGD.jpeg"></img></a> </CardBody>
         
           </Card>
             <br></br>
@@ -291,12 +291,13 @@ otherToggle = () => {
 
               
             </Col>
-            {this.state.yelpInfo ? (
+            
+            {this.state.getYelp ? (
             <Col>
             <Card style={{ width: '100%', height: '100%' }}>
                 
             <CardBody>
-          <CardTitle><img src={this.state.yelpInfo.image_url} style={{ width: '100%'}} /></CardTitle>
+          <CardTitle><img alt="yelp_img" src={this.state.yelpInfo.image_url} style={{ width: '100%'}} /></CardTitle>
           <CardSubtitle><h2>Recent Yelp Reviews</h2></CardSubtitle>
           {this.state.yelpReviews.map((review, index) => (
             <CardText key={index}><h5>{review.text} {' '} {this.numberofStars(review.rating)}</h5></CardText>
@@ -327,8 +328,8 @@ otherToggle = () => {
         </CardBody>
       </Card>
 
-            </Col>) : ""}
-          
+      </Col>) : ""}
+            
         </Row>
       </Container>
     );

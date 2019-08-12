@@ -1,19 +1,7 @@
 import React, { Component } from "react";
-import { Link } from "react-router-dom";
-import { Jumbotron, Badge, Input, Nav, Button, Form, FormGroup, Label, Container, Row, Col, Table} from 'reactstrap';
+import { Jumbotron, Badge, Container, Row, Col} from 'reactstrap';
 import API from "../utils/API";
-// import BootstrapTable from 'react-bootstrap-table-next';
-// import { Input} from "../components/Form";
-// var $  = require( 'jquery' );
-// var dt = require( 'datatables.net' )();
-// import { GoogleLogin } from 'react-google-login';
-
-
-// const responseGoogle = (response) => {
-//     console.log(response);
-//   }
 import Moment from 'react-moment';
-// import $ from 'jquery';
 import BootstrapTable from 'react-bootstrap-table-next';
 import filterFactory, { textFilter } from 'react-bootstrap-table2-filter';
 import paginationFactory from 'react-bootstrap-table2-paginator';
@@ -173,12 +161,10 @@ class Scores extends Component {
     render() {
       return (
         <Container fluid>
-        {/* <Nav><Link
-          to="/user">User Home Page</Link></Nav> */}
           <Row>
             <Col size="md-12">
               <Jumbotron>
-                <h1>Restaurant Inspection Scores</h1>
+                <h1>Food Establishment Inspection Scores</h1>
               </Jumbotron>
               <div className="table-responsive" >
               <BootstrapTable classes="table-dark" bootstrap4 keyField='id' data={ this.state.results } columns={ columns }  filter={ filterFactory() }  rowEvents={this.rowEvents} pagination={ pagination }/>
