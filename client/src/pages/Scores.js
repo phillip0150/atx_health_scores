@@ -17,7 +17,7 @@ import Moment from 'react-moment';
 import BootstrapTable from 'react-bootstrap-table-next';
 import filterFactory, { textFilter } from 'react-bootstrap-table2-filter';
 import paginationFactory from 'react-bootstrap-table2-paginator';
-import dotenv from 'dotenv'
+
 
 
 function dateFormatter(cell, row) {
