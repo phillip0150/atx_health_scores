@@ -4,7 +4,7 @@ import { Form, Label, Input, Jumbotron, Container, Row, Col, Card, Modal, ModalH
 import API from "../utils/API";
 import MapGL, { Marker, NavigationControl } from '@urbica/react-map-gl';
 import 'mapbox-gl/dist/mapbox-gl.css';
-const MAP = process.env.REACT_APP_MAP 
+const MAP = process.env.REACT_APP_MAP
 
 
 class Details extends Component {
@@ -305,7 +305,12 @@ otherToggle = () => {
           ))}
           
         {/* <Button color="danger" onClick={this.toggle}>Get Directions</Button> {" "} */}
-        <Modal isOpen={this.state.modal} toggle={this.toggle} className="modal-dialog modal-lg"> 
+
+        </CardBody>
+      </Card>
+
+      </Col>) : ""}
+      <Modal isOpen={this.state.modal} toggle={this.toggle} className="modal-dialog modal-lg"> 
           <ModalHeader toggle={this.toggle}>{this.storeName(this.state.name)}</ModalHeader>
           <ModalBody style={{height: '600px'}}>
             <h1>Has been added to your favs!</h1>
@@ -323,13 +328,7 @@ otherToggle = () => {
                    
         </ModalBody>
           
-        </Modal>
-
-        </CardBody>
-      </Card>
-
-      </Col>) : ""}
-            
+        </Modal> 
         </Row>
       </Container>
     );
