@@ -28,7 +28,7 @@ all data is provided by `Yelp.com` and `data.austintexas.gov`
 To use ATX Food Scores, [CLICK HERE](https://morning-depths-76406.herokuapp.com)
 
 
-Once you enter the homescreen, you can click on the hamburger menu to view options. Click Home site will take you back to the homepage, User site will take you to the user login/homepage. To start viewing food establishments, scroll down to the table
+Once you enter the homescreen, you can click on the hamburger menu to view options. Click Home site will take you back to the homepage, User site will take you to the user login/homepage. To start viewing food establishments, scroll down to the table.
 
 <img src="https://github.com/phillip0150/atx_health_scores/blob/master/client/public/images/1.png" width="250"/><img src="https://github.com/phillip0150/atx_health_scores/blob/master/client/public/images/6.png" width="250"/>
 
@@ -36,10 +36,33 @@ From there, you can search each collum, sort the collums by clicking on the row,
 
 <img src="https://github.com/phillip0150/atx_health_scores/blob/master/client/public/images/3.png" width="250"/><img src="https://github.com/phillip0150/atx_health_scores/blob/master/client/public/images/4.png" width="250"/>
 
-You can also change the number of results per page
+You can also change the number of results per page.
 
 <img src="https://github.com/phillip0150/atx_health_scores/blob/master/client/public/images/5.png" width="250"/>
 
+When you click on the User Site, it will either display the page or make you login.
+
+<img src="https://github.com/phillip0150/atx_health_scores/blob/master/client/public/images/11.png" width="250"/><img src="https://github.com/phillip0150/atx_health_scores/blob/master/client/public/images/12.png" width="250"/>
+
+Once you login, your favs and inspection scores will appear.
+
+<img src="https://github.com/phillip0150/atx_health_scores/blob/master/client/public/images/13.png" width="250"/>
+
+To hide your favs list, press toggle favs.
+
+<img src="https://github.com/phillip0150/atx_health_scores/blob/master/client/public/images/14.png" width="250"/>
+
+Just like with non users, you can click on a row to view the establishment. The only difference in the page is that a button will appear to add or delete the establishment from your favs list.
+
+<img src="https://github.com/phillip0150/atx_health_scores/blob/master/client/public/images/15.png" width="250"/>
+
+Once you add or delete a establishment from your favs list, a modal will appear witht the appropriate message
+
+<img src="https://github.com/phillip0150/atx_health_scores/blob/master/client/public/images/16.png" width="250"/>
+
+Once you add or delete a establishment from your favs list, the button on the page will update.
+
+<img src="https://github.com/phillip0150/atx_health_scores/blob/master/client/public/images/17.png" width="250"/>
 
 
 ## Organization
