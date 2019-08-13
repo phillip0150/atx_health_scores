@@ -4,7 +4,7 @@ import { Form, Label, Input, Jumbotron, Container, Row, Col, Card, Modal, ModalH
 import API from "../utils/API";
 import MapGL, { Marker, NavigationControl } from '@urbica/react-map-gl';
 import 'mapbox-gl/dist/mapbox-gl.css';
-const MAP = process.env.REACT_APP_MAP
+const MAP = process.env.REACT_APP_MAP 
 
 
 class Details extends Component {
