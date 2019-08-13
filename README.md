@@ -1,3 +1,53 @@
+# ATX Food Scores
+
+## Problem
+
+Texas law doesn’t require establishments to post their inspection scores. A way indviduals can look up establishment inspection scores in austin is on the governments site. But, it is hard to find and not user friendly.
+
+
+## Solution
+
+Develop an application that can inform users about restaurant inspection scores, in a user friendly way. Gather inspection scores from the source (atx gov), and other useful information from yelp. Allow users to create an account (google login), and save favorite restaurants.
+
+
+[Link to app](https://morning-depths-76406.herokuapp.com)
+
+[Link to repo](https://github.com/phillip0150/atx_health_scores)
+
+## Technologies
+
+ATX Food Scores was written with a `MERN` stack, `axios`, `mongoose`, `reactstrap`, `mapbox-gl`, `react-moment`, `react-bootstrap-table` , `react-google-login`, `react-dom`, and `react-rouer-dom`.
+
+all images are provided by `Yelp.com`.
+all data is provided by `Yelp.com` and `data.austintexas.gov`
+
+
+## How to use
+
+
+To use ATX Food Scores, [CLICK HERE](https://morning-depths-76406.herokuapp.com)
+
+
+Once you enter the homescreen, you can click on the hamburger menu to view options.
+
+
+![screenShot](https://github.com/phillip0150/node_express_friend_finder/blob/master/images/1.png?raw=true)
+
+
+
+
+
+## Organization
+
+### Routes
+
+This program uses `express` and `react-router-dom` to create routing to different pages. Because of this, you will not see `.html` at the end of web page. 
+
+## My role
+Application developer
+ 
+---------------------------------
+
 # Create React Express App
 
 ## About This Boilerplate
