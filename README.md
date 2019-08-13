@@ -28,9 +28,9 @@ all data is provided by `Yelp.com` and `data.austintexas.gov`
 To use ATX Food Scores, [CLICK HERE](https://morning-depths-76406.herokuapp.com)
 
 
-Once you enter the homescreen, you can click on the hamburger menu to view options.
+Once you enter the homescreen, you can click on the hamburger menu to view options. Click Home site will take you back to the homepage, User site will take you to the user login/homepage. To start viewing food establishments, scroll down to the table
 
-<img src="https://github.com/phillip0150/atx_health_scores/blob/master/client/public/images/5.png" width="250"/>
+<img src="https://github.com/phillip0150/atx_health_scores/blob/master/client/public/images/6.png" width="250"/><img src="https://github.com/phillip0150/atx_health_scores/blob/master/client/public/images/1.png" width="250"/>
 
 
 
