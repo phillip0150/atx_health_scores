@@ -194,9 +194,10 @@ if (res.data.businesses[x].name !== null && res.data.businesses[x].location.addr
   
 isInFavs = () => {
   if(localStorage.getItem("inFav")==="true"){
-    return <Button color="danger" size="lg" className="float-right" onClick={() => this.delTheFavs(localStorage.getItem('id'), this.state.allInfo[0])}>Remove from Favs</Button>
+    return <div><Button color="success" size="lg" className="float-right" href="/user">Home</Button><br></br><Button color="danger" size="lg" className="float-right" onClick={() => this.delTheFavs(localStorage.getItem('id'), this.state.allInfo[0])}>Remove from Favs</Button></div>
   } else if (localStorage.getItem("inFav")==="false"){
-    return <Button color="primary" size="lg" className="float-right" onClick={() => this.updateTheFavs(localStorage.getItem('id'), this.state.allInfo[0])}>Add to Favs</Button>}
+    return <div><Button color="success" size="lg" className="float-right" href="/user">Home</Button><br></br><Button color="primary" size="lg" className="float-right" onClick={() => this.updateTheFavs(localStorage.getItem('id'), this.state.allInfo[0])}>Add to Favs</Button></div>
+  }
     else if(localStorage.getItem("id")===""){
     return <Button color="primary" size="lg" className="float-right" href="/">Home</Button>
     }
