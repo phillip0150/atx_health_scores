@@ -188,9 +188,8 @@ if (res.data.businesses[x].name !== null && res.data.businesses[x].location.addr
     API.updateFavs(id, {
       favs
     }).then(res =>
-    {this.setState({user: res.data,
-    justAdded: true});
-  })
+    {this.setState({user: res.data});
+    localStorage.setItem("inFav", true)})
 }
   
 isInFavs = () => {
@@ -210,8 +209,8 @@ delTheFavs = (id, favs) => {
   API.deleteFavs(id, 
     {favs}
   ).then(res =>
-  {this.setState({user: res.data,
-  justAdded:false})})
+  {this.setState({user: res.data})
+localStorage.setItem("inFav", false)})
 }
 
 toggle = () => {
