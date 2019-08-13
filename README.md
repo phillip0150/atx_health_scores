@@ -30,8 +30,7 @@ To use ATX Food Scores, [CLICK HERE](https://morning-depths-76406.herokuapp.com)
 
 Once you enter the homescreen, you can click on the hamburger menu to view options.
 
-
-![screenShot](https://github.com/phillip0150/atx_health_scores/blob/master/client/public/images/5.png =250x)
+<img src="https://github.com/phillip0150/atx_health_scores/blob/master/client/public/images/5.png" width="250"/>
 
 
 
