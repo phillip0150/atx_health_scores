@@ -2,7 +2,7 @@
 
 ## Problem
 
-Texas law doesn’t require establishments to post their inspection scores. A way indviduals can look up establishment inspection scores in austin is on the governments site. But, it is hard to find and not user friendly.
+Texas law doesn’t require establishments to post their inspection scores. A way individuals can look up establishment inspection scores in austin is on the governments site. But, it is hard to find and not user friendly.
 
 
 ## Solution
