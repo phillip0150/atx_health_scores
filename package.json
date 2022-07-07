@@ -28,7 +28,7 @@
     "if-env": "^1.0.4",
     "jquery": "^3.4.1",
     "mapbox-gl": "^1.2.0",
-    "moment": "^2.24.0",
+    "moment": "^2.29.4",
     "mongoose": "^5.6.8",
     "react": "^16.8.6",
     "react-bootstrap-table-next": "^3.1.7",
